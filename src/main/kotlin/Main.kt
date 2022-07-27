@@ -3,12 +3,14 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
@@ -54,9 +56,19 @@ fun App() {
 
 fun main() {
     application {
-        Window(onCloseRequest = this::exitApplication) {
+        Window(
+            title = "Log Viewer",
+            onCloseRequest = this::exitApplication,
+        ) {
             DropProvider(window = this.window) {
-                App()
+                Surface(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth(),
+                    color = Color.LightGray
+                ) {
+                    App()
+                }
             }
         }
     }
