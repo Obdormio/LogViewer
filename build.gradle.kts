@@ -18,6 +18,10 @@ repositories {
 
 dependencies {
     implementation(compose.desktop.currentOs)
+    // https://mvnrepository.com/artifact/org.jetbrains.compose.material3/material3-desktop
+    implementation("org.jetbrains.compose.material3:material3-desktop:1.2.0-alpha01-dev620")
+    // https://mvnrepository.com/artifact/org.jetbrains.compose.material/material-icons-extended-desktop
+    implementation("org.jetbrains.compose.material:material-icons-extended-desktop:1.2.0-alpha01-dev620")
 }
 
 tasks.withType<KotlinCompile> {

@@ -1,17 +1,15 @@
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import patches.DropProvider
@@ -21,6 +19,7 @@ import ui.LogFileScope
 import utils.useState
 import java.io.File
 
+@ExperimentalMaterial3Api
 @Composable
 fun App() {
     val (file, setFile) = useState<File?>(null)
@@ -36,24 +35,16 @@ fun App() {
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-            .padding(15.dp)
-    ) {
-        Button({ setFile(null) }) {
-            Text("Back")
-        }
-
-        if (isDirectory) {
-            DirectoryScope(file)
-        } else {
-            LogFileScope(file)
-        }
+    if (isDirectory) {
+        DirectoryScope(file, onBack = {
+            setFile(null)
+        })
+    } else {
+        LogFileScope(file)
     }
 }
 
+@ExperimentalMaterial3Api
 fun main() {
     application {
         Window(
@@ -61,13 +52,20 @@ fun main() {
             onCloseRequest = this::exitApplication,
         ) {
             DropProvider(window = this.window) {
-                Surface(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth(),
-                    color = Color.LightGray
+                MaterialTheme(
+                    colorScheme = lightColorScheme(
+                        background = Color(242, 240, 224),
+                        primary = Color(8, 87, 134),
+                    )
                 ) {
-                    App()
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        App()
+                    }
                 }
             }
         }
