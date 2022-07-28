@@ -3,9 +3,9 @@ package ui
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Folder
-import androidx.compose.material3.*
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -43,17 +43,6 @@ private fun listFiles(directory: File) = directory
 
 private fun makeTopBar(title: String, onBack: () -> Unit): @Composable () -> Unit {
     return {
-        SmallTopAppBar(
-            title = { Text(title) },
-            colors = TopAppBarDefaults.smallTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.background
-            ),
-            actions = {
-                TextButton(onClick = onBack) {
-                    Text("重新选择")
-                }
-            }
-        )
     }
 }
 
@@ -77,10 +66,10 @@ private fun makeContent(files: List<FileInfo>): @Composable (paddingValues: Padd
                         onClick = {}
                     ) {
                         if (file.isDirectory) {
-                            Icon(imageVector = Icons.Rounded.Folder, contentDescription = null)
+                            Icon(imageVector = Icons.Rounded.Add, contentDescription = null)
                             Spacer(modifier = Modifier.size(ButtonDefaults.IconSize))
                         }
-                        Text(file.name, style = MaterialTheme.typography.bodyMedium)
+                        Text(file.name, style = MaterialTheme.typography.caption)
                     }
                 }
             }
@@ -88,7 +77,6 @@ private fun makeContent(files: List<FileInfo>): @Composable (paddingValues: Padd
     }
 }
 
-@ExperimentalMaterial3Api
 @Composable
 fun DirectoryScope(directory: File, onBack: () -> Unit) {
     val (files, setFiles) = useState<List<FileInfo>>(listOf())

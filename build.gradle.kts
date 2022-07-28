@@ -4,7 +4,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.6.10"
-    id("org.jetbrains.compose") version "1.1.0"
+    kotlin("plugin.serialization") version "1.6.10"
+    id("org.jetbrains.compose") version "1.1.1"
 }
 
 group = "me.lidafan"
@@ -19,9 +20,10 @@ repositories {
 dependencies {
     implementation(compose.desktop.currentOs)
     // https://mvnrepository.com/artifact/org.jetbrains.compose.material3/material3-desktop
-    implementation("org.jetbrains.compose.material3:material3-desktop:1.2.0-alpha01-dev620")
+    implementation("org.jetbrains.compose.material3:material3-desktop:1.1.1")
     // https://mvnrepository.com/artifact/org.jetbrains.compose.material/material-icons-extended-desktop
-    implementation("org.jetbrains.compose.material:material-icons-extended-desktop:1.2.0-alpha01-dev620")
+    implementation("org.jetbrains.compose.material:material-icons-extended-desktop:1.1.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0-RC")
 }
 
 tasks.withType<KotlinCompile> {
