@@ -3,7 +3,7 @@ package analysis.renderer
 import analysis.LogLine
 
 class RenderLogAnalyzer(logLines: List<LogLine>) {
-    val rendererLogs: List<RendererLog>;
+    val rendererLogs: List<RendererLog>
 
     init {
         val rendererLogs = arrayListOf<RendererLog>()
@@ -16,6 +16,7 @@ class RenderLogAnalyzer(logLines: List<LogLine>) {
             ResetVideoParser,
             ResetScreenParser,
             ChangeRenderSlotTypeParser,
+            ResetWhenMuteParser,
         )
         logLines.forEach { logLine ->
             val parsed = parsers.any { parser ->

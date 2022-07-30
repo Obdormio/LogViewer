@@ -2,18 +2,24 @@ package ui
 
 import analysis.LogLine
 import analysis.renderer.*
+import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import ui.common.Chips
+import ui.common.Gap
 
 @Composable
 fun MeetingScope(
@@ -23,56 +29,71 @@ fun MeetingScope(
         RenderLogAnalyzer(logLines)
     }
 
-    val scrollState = rememberScrollState(0)
+    val lazyScrollState = rememberLazyListState()
 
-    Box(
-        modifier = Modifier.fillMaxSize().verticalScroll(scrollState)
-    ) {
-        Column {
-            rendererLogs.rendererLogs.forEach { LineView(it) }
+    LaunchedEffect(logLines) {
+        lazyScrollState.scrollToItem(0)
+    }
+
+    Box(modifier = Modifier.fillMaxWidth()) {
+        LazyColumn(state = lazyScrollState, modifier = Modifier.fillMaxWidth()) {
+            items(rendererLogs.rendererLogs) {
+                LineView(it)
+                Gap(8)
+            }
         }
+
+        VerticalScrollbar(
+            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+            adapter = rememberScrollbarAdapter(lazyScrollState)
+        )
     }
 }
 
 @Composable
-fun LineView(rendererLog: RendererLog) {
-    Row {
-        when (rendererLog) {
-            is RendererStart -> {
-                Text("Start")
+fun LineView(log: RendererLog) {
+    when (log) {
+        is RendererStart -> {
+            Chips {
+                chip(log.renderSlotID)
+                chip(log.renderSlotType)
+                chip("Start", Color.Green)
             }
-            is RendererStop -> {
-                Text("Stop")
+        }
+        is RendererStop -> {
+            Text("Stop")
+        }
+        is RendererAttach -> {
+            Text("Attach")
+            Text("Mode:${log.renderMode}")
+            Text("RtcJoinId Count: ${log.rtcJoinIDs.size}")
+        }
+        is RendererRenderStarted -> {
+            Text("Render Started")
+        }
+        is RendererForceResync -> {
+            Text("Force Resync")
+        }
+        is ResetVideo -> {
+            Text("Reset Video")
+        }
+        is ResetScreen -> {
+            Text("Reset Screen")
+        }
+        is RendererChangeRenderSlotType -> {
+            Text("Change RenderSlotType")
+        }
+        is ResetWhenMute -> {
+            Text("Rest when mute")
+        }
+        is RendererInstanceLog -> {
+            Box(modifier = Modifier.background(Color.Red)) {
+                Text(log.renderSlotType + ":" + log.renderSlotID)
             }
-            is RendererAttach -> {
-                Text("Attach")
-                Text("Mode:${rendererLog.renderMode}")
-                Text("RtcJoinId Count: ${rendererLog.rtcJoinIDs.size}")
-            }
-            is RendererRenderStarted -> {
-                Text("Render Started")
-            }
-            is RendererForceResync -> {
-                Text("Force Resync")
-            }
-            is ResetVideo -> {
-                Text("Reset Video")
-            }
-            is ResetScreen -> {
-                Text("Reset Screen")
-            }
-            is RendererChangeRenderSlotType -> {
-                Text("Change RenderSlotType")
-            }
-            is RendererInstanceLog -> {
-                Box(modifier = Modifier.background(Color.Red)) {
-                    Text(rendererLog.renderSlotType + ":" + rendererLog.renderSlotID)
-                }
-            }
-            else -> {
-                Box(modifier = Modifier.background(Color.Red)) {
-                    Text(rendererLog.logLine.message)
-                }
+        }
+        else -> {
+            Box(modifier = Modifier.background(Color.Red)) {
+                Text(log.logLine.message)
             }
         }
     }
