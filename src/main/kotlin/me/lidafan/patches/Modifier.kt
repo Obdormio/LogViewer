@@ -1,4 +1,4 @@
-package patches
+package me.lidafan.patches
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.ui.Modifier

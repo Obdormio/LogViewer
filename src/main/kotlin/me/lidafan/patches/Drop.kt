@@ -1,4 +1,4 @@
-package patches
+package me.lidafan.patches
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.awt.ComposeWindow

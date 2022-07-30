@@ -4,9 +4,7 @@ import analysis.LogLine
 import analysis.renderer.*
 import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -18,8 +16,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import ui.common.Chips
-import ui.common.Gap
+import me.lidafan.ui.common.Chips
+import me.lidafan.ui.common.Gap
 
 @Composable
 fun MeetingScope(
@@ -52,48 +50,50 @@ fun MeetingScope(
 
 @Composable
 fun LineView(log: RendererLog) {
-    when (log) {
-        is RendererStart -> {
-            Chips {
-                chip(log.renderSlotID)
-                chip(log.renderSlotType)
-                chip("Start", Color.Green)
+    Row() {
+        when (log) {
+            is RendererStart -> {
+                Chips {
+                    chip(log.renderSlotID)
+                    chip(log.renderSlotType)
+                    chip("Start", Color.Green)
+                }
             }
-        }
-        is RendererStop -> {
-            Text("Stop")
-        }
-        is RendererAttach -> {
-            Text("Attach")
-            Text("Mode:${log.renderMode}")
-            Text("RtcJoinId Count: ${log.rtcJoinIDs.size}")
-        }
-        is RendererRenderStarted -> {
-            Text("Render Started")
-        }
-        is RendererForceResync -> {
-            Text("Force Resync")
-        }
-        is ResetVideo -> {
-            Text("Reset Video")
-        }
-        is ResetScreen -> {
-            Text("Reset Screen")
-        }
-        is RendererChangeRenderSlotType -> {
-            Text("Change RenderSlotType")
-        }
-        is ResetWhenMute -> {
-            Text("Rest when mute")
-        }
-        is RendererInstanceLog -> {
-            Box(modifier = Modifier.background(Color.Red)) {
-                Text(log.renderSlotType + ":" + log.renderSlotID)
+            is RendererStop -> {
+                Text("Stop")
             }
-        }
-        else -> {
-            Box(modifier = Modifier.background(Color.Red)) {
-                Text(log.logLine.message)
+            is RendererAttach -> {
+                Text("Attach")
+                Text("Mode:${log.renderMode}")
+                Text("RtcJoinId Count: ${log.rtcJoinIDs.size}")
+            }
+            is RendererRenderStarted -> {
+                Text("Render Started")
+            }
+            is RendererForceResync -> {
+                Text("Force Resync")
+            }
+            is ResetVideo -> {
+                Text("Reset Video")
+            }
+            is ResetScreen -> {
+                Text("Reset Screen")
+            }
+            is RendererChangeRenderSlotType -> {
+                Text("Change RenderSlotType")
+            }
+            is ResetWhenMute -> {
+                Text("Rest when mute")
+            }
+            is RendererInstanceLog -> {
+                Box(modifier = Modifier.background(Color.Red)) {
+                    Text(log.renderSlotType + ":" + log.renderSlotID)
+                }
+            }
+            else -> {
+                Box(modifier = Modifier.background(Color.Red)) {
+                    Text(log.logLine.message)
+                }
             }
         }
     }

@@ -24,6 +24,7 @@ dependencies {
     // https://mvnrepository.com/artifact/org.jetbrains.compose.material/material-icons-extended-desktop
     implementation("org.jetbrains.compose.material:material-icons-extended-desktop:1.1.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0-RC")
+    implementation("io.github.microutils:kotlin-logging-jvm:2.1.20")
 }
 
 tasks.withType<KotlinCompile> {
@@ -32,7 +33,7 @@ tasks.withType<KotlinCompile> {
 
 compose.desktop {
     application {
-        mainClass = "MainKt"
+        mainClass = "me.lidafan.MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "log-view"

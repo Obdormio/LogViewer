@@ -11,8 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import patches.dashedBorder
-import patches.useDropFile
+import me.lidafan.patches.dashedBorder
+import me.lidafan.patches.useDropFile
 import java.io.File
 
 @Composable

@@ -1,4 +1,4 @@
-package ui.common
+package me.lidafan.ui.common
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
