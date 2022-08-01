@@ -16,7 +16,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import me.lidafan.ui.common.Chips
+import androidx.compose.ui.unit.dp
+import me.lidafan.ui.common.Chip
 import me.lidafan.ui.common.Gap
 
 @Composable
@@ -53,10 +54,10 @@ fun LineView(log: RendererLog) {
     Row() {
         when (log) {
             is RendererStart -> {
-                Chips {
-                    chip(log.renderSlotID)
-                    chip(log.renderSlotType)
-                    chip("Start", Color.Green)
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Chip(log.renderSlotID)
+                    Chip(log.renderSlotType)
+                    Chip("Start", Color.Green)
                 }
             }
             is RendererStop -> {

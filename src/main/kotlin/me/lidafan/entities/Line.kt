@@ -14,7 +14,8 @@ data class ParsedLine(
     val label: String,
     val route: String,
     val coreID: String,
-    val message: String
+    val message: String,
+    val originLine: Line
 ) {
     companion object {
         private fun makePattern(): Regex {
@@ -35,10 +36,10 @@ data class ParsedLine(
             return Regex(pattern.joinToString("\\s*"))
         }
 
-        fun fromLine(line: String): ParsedLine? {
+        fun fromLine(line: Line): ParsedLine? {
             val regex = makePattern()
 
-            val result = regex.find(line) ?: return null
+            val result = regex.find(line.text) ?: return null
             val iter = result.groupValues.iterator()
             iter.next() // first is the whole string, skip it
 
@@ -54,7 +55,8 @@ data class ParsedLine(
                 label = iter.next(),
                 route = iter.next(),
                 coreID = iter.next(),
-                message = iter.next()
+                message = iter.next(),
+                originLine = line
             )
         }
     }
@@ -67,11 +69,15 @@ data class ParsedLine(
         retVal += this.millisecond.toString().padStart(3, '0')
         return retVal
     }
+
+    fun getTimestamp(): Int {
+        return this.hour * 3600_000 + this.minute * 60_000 + this.second * 1_000 + this.millisecond
+    }
 }
 
 data class Line(val lineNumber: Int, val text: String) {
     val parsedLine: ParsedLine? by lazy {
-        ParsedLine.fromLine(this.text)
+        ParsedLine.fromLine(this)
     }
 }
 

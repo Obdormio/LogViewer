@@ -11,7 +11,7 @@ fun main() {
     application {
         Window(
             title = "Log Viewer",
-            onCloseRequest = this::exitApplication,
+            onCloseRequest = this::exitApplication
         ) {
             AppWrapper(window = this.window) {
                 ApplicationRoot()
